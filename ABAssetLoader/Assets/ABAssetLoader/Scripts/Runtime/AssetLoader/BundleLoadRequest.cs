@@ -19,8 +19,8 @@ namespace ABAssetLoader.AssetLoader
                 return await _promise.Task;
 
             // mock load delay
-            if (AssetLoaderSetting.EmulateLoadingBundleDelayMilliseconds.HasValue)
-                await UniTask.Delay(millisecondsDelay: AssetLoaderSetting.EmulateLoadingBundleDelayMilliseconds.Value,
+            if (ABAssetLoaderSetting.EmulateLoadingBundleDelayMilliseconds.HasValue)
+                await UniTask.Delay(millisecondsDelay: ABAssetLoaderSetting.EmulateLoadingBundleDelayMilliseconds.Value,
                     cancellationToken: ct);
 
             _promise = new UniTaskCompletionSource<AssetBundle>();

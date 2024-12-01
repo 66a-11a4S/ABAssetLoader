@@ -34,12 +34,12 @@ namespace ABAssetLoader
 
         public void UnloadAsset(LoadedAssetHandle handle) => _assetLoader.UnloadAsset(handle);
 
-        public void UnloadAll(bool unloadAllObjects) => _assetLoader.UnloadAll(unloadAllObjects);
+        public void UnloadAll(bool unloadAllObjects = true) => _assetLoader.UnloadAll(unloadAllObjects);
 
-        public void DeleteBundleCache(bool unloadAllObjects)
+        public void DeleteBundleCache(bool unloadAllObjects = true)
         {
             UnloadAll(unloadAllObjects);
-            var path = AssetLoaderSetting.PersistentDataPath;
+            var path = ABAssetLoaderSetting.PersistentDataPath;
             if (Directory.Exists(path))
                 Directory.Delete(path, recursive: true);
         }

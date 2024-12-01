@@ -12,7 +12,7 @@ namespace ABAssetLoader.Download
 {
     public static class AssetBundleDownloader
     {
-        public static async UniTask<long> CalculateDownloadSize(CancellationToken ct)
+        public static async UniTask<long> CalculateDownloadSize(CancellationToken ct = default)
         {
             var remoteManifest = await VersionManifestAccessor.Get(LocationType.Remote, ct);
             var localManifest = await VersionManifestAccessor.GetOrDefault(LocationType.Persistent, ct) ??
@@ -21,7 +21,7 @@ namespace ABAssetLoader.Download
             return updatedBundles.Select(version => version.ByteSize).Sum();
         }
 
-        public static async UniTask DownloadUpdated(CancellationToken ct,
+        public static async UniTask DownloadUpdated(CancellationToken ct = default,
             Action<BundleVersion> onDownloaded = null)
         {
             var remoteManifest = await VersionManifestAccessor.Get(LocationType.Remote, ct);
@@ -32,17 +32,17 @@ namespace ABAssetLoader.Download
             try
             {
                 await DownloadBundles(updatedTargets, localManifest, onDownloaded, ct);
-                await Download(CreateUri(LocationType.Remote, AssetLoaderSetting.RootBundleName),
-                    filePath: AssetLoaderSetting.RootBundleName,
-                    downloadTo: AssetLoaderSetting.PersistentAssetBundleBasePath,
+                await Download(CreateUri(LocationType.Remote, ABAssetLoaderSetting.RootBundleName),
+                    filePath: ABAssetLoaderSetting.RootBundleName,
+                    downloadTo: ABAssetLoaderSetting.PersistentAssetBundleBasePath,
                     ct);
-                await Download(CreateUri(LocationType.Remote, AssetLoaderSetting.RootBundleName + ".manifest"),
-                    filePath: AssetLoaderSetting.RootBundleName + ".manifest",
-                    downloadTo: AssetLoaderSetting.PersistentAssetBundleBasePath,
+                await Download(CreateUri(LocationType.Remote, ABAssetLoaderSetting.RootBundleName + ".manifest"),
+                    filePath: ABAssetLoaderSetting.RootBundleName + ".manifest",
+                    downloadTo: ABAssetLoaderSetting.PersistentAssetBundleBasePath,
                     ct);
-                await Download(CreateUri(LocationType.Remote, AssetLoaderSetting.ContentsTableName),
-                    filePath: AssetLoaderSetting.ContentsTableName,
-                    downloadTo: AssetLoaderSetting.PersistentAssetBundleBasePath,
+                await Download(CreateUri(LocationType.Remote, ABAssetLoaderSetting.ContentsTableName),
+                    filePath: ABAssetLoaderSetting.ContentsTableName,
+                    downloadTo: ABAssetLoaderSetting.PersistentAssetBundleBasePath,
                     ct);
             }
             finally
@@ -89,12 +89,12 @@ namespace ABAssetLoader.Download
                     break;
 
                 // mock download delay
-                if (AssetLoaderSetting.EmulateDownloadDelayMilliseconds.HasValue)
-                    await UniTask.Delay(millisecondsDelay: AssetLoaderSetting.EmulateDownloadDelayMilliseconds.Value, cancellationToken: ct);
+                if (ABAssetLoaderSetting.EmulateDownloadDelayMilliseconds.HasValue)
+                    await UniTask.Delay(millisecondsDelay: ABAssetLoaderSetting.EmulateDownloadDelayMilliseconds.Value, cancellationToken: ct);
 
                 // cdn から再ダウンロードする
                 var uri = CreateUri(LocationType.Remote, target.FilePath);
-                await Download(uri, target.FilePath, downloadTo: AssetLoaderSetting.PersistentAssetBundleBasePath, ct);
+                await Download(uri, target.FilePath, downloadTo: ABAssetLoaderSetting.PersistentAssetBundleBasePath, ct);
 
                 // 取得したら versionManifest を dl 後のものに更新する
                 localManifest.Set(target.FilePath, target);
@@ -136,7 +136,7 @@ namespace ABAssetLoader.Download
                 var downloadHandler = new DownloadHandlerFile(path);
                 downloadHandler.removeFileOnAbort = true;
                 webRequest.downloadHandler = downloadHandler;
-                webRequest.timeout = AssetLoaderSetting.DownloadTimeoutSeconds;
+                webRequest.timeout = ABAssetLoaderSetting.DownloadTimeoutSeconds;
 
 #if UNITY_IOS
                 // アプリを削除しても再度 DL すればよいデータなので iCloud にバックアップされないようにする

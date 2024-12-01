@@ -572,3 +572,8 @@ sysinfo.txt
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/osx,unity,rider,csharp
+
+# Project specific folders
+/[Aa]ssets/[Ss]treamingAssets/AssetBundles
+/[Aa]ssets/[Ss]treamingAssets/MockCdnHost
+/[Aa]ssets/Samples/SampleAssets/ExternalAssets

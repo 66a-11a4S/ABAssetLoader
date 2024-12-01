@@ -12,7 +12,7 @@ namespace ABAssetLoader.AssetLoader
         public static async UniTask<AssetBundleContentsTable> Get(LocationType locationType, CancellationToken ct)
         {
             var path = AbstractFileLocatorFactory.CreateLocator(locationType,
-                fileName: AssetLoaderSetting.ContentsTableName).PathForWebRequest;
+                fileName: ABAssetLoaderSetting.ContentsTableName).PathForWebRequest;
             return await Load(path, ct, Debug.Log, Debug.LogWarning);
         }
 
@@ -20,7 +20,7 @@ namespace ABAssetLoader.AssetLoader
             CancellationToken ct)
         {
             var path = AbstractFileLocatorFactory.CreateLocator(locationType,
-                fileName: AssetLoaderSetting.ContentsTableName).PathForWebRequest;
+                fileName: ABAssetLoaderSetting.ContentsTableName).PathForWebRequest;
             try
             {
                 return await Load(path, ct, _ => {}, _ => {});

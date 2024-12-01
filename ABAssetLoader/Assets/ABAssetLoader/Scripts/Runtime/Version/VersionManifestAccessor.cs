@@ -13,14 +13,14 @@ namespace ABAssetLoader.Version
         public static async UniTask<VersionManifest> Get(LocationType locationType, CancellationToken ct)
         {
             var path = AbstractFileLocatorFactory.CreateLocator(locationType,
-                fileName: AssetLoaderSetting.VersionManifestFileName).PathForWebRequest;
+                fileName: ABAssetLoaderSetting.VersionManifestFileName).PathForWebRequest;
             return await LoadVersionManifest(path, ct, Debug.Log, Debug.LogWarning);
         }
 
         public static async UniTask<VersionManifest> GetOrDefault(LocationType locationType, CancellationToken ct)
         {
             var path = AbstractFileLocatorFactory.CreateLocator(locationType,
-                fileName: AssetLoaderSetting.VersionManifestFileName).PathForWebRequest;
+                fileName: ABAssetLoaderSetting.VersionManifestFileName).PathForWebRequest;
             try
             {
                 return await LoadVersionManifest(path, ct, _ => { }, _ => { });
@@ -62,8 +62,8 @@ namespace ABAssetLoader.Version
 
         public static void SavePersistentManifest(VersionManifest manifest)
         {
-            var directory = AssetLoaderSetting.PersistentAssetBundleBasePath;
-            var path = $"{directory}/{AssetLoaderSetting.VersionManifestFileName}";
+            var directory = ABAssetLoaderSetting.PersistentAssetBundleBasePath;
+            var path = $"{directory}/{ABAssetLoaderSetting.VersionManifestFileName}";
             var text = VersionManifest.Serialize(manifest);
 #if UNITY_IOS
             // アプリを削除しても再度 DL すればよいデータなので iCloud にバックアップされないようにする

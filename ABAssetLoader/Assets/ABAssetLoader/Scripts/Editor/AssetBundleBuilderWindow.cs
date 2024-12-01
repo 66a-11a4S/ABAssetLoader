@@ -65,7 +65,7 @@ namespace ABAssetLoader.Editor
 
             if (GUILayout.Button("パッケージを作成"))
             {
-                var packageName = _exportAsInitialPackage ? AssetLoaderSetting.BundleBasePath : _packageName;
+                var packageName = _exportAsInitialPackage ? ABAssetLoaderSetting.BundleBasePath : _packageName;
                 var outputFolder = _exportAsInitialPackage ? Application.streamingAssetsPath : _outputFolder;
                 var contentNames = _selectedBundles.Where(kvp => kvp.Value).Select(kvp => kvp.Key).ToHashSet();
                 var selectedTargetOS = _selectedTargetOS.First(kvp => kvp.Value).Key;
@@ -154,21 +154,21 @@ namespace ABAssetLoader.Editor
             // 出力された root バンドルはフォルダ名と同じになってるので、プロジェクトの root バンドル名にもどしておく
             var rootBundleName = $"{outputPath}/{packageName}";
             var rootBundleManifestName = $"{outputPath}/{packageName}.manifest";
-            File.Move(rootBundleName, $"{outputPath}/{AssetLoaderSetting.RootBundleName}");
-            File.Move(rootBundleManifestName, $"{outputPath}/{AssetLoaderSetting.RootBundleName}.manifest");
+            File.Move(rootBundleName, $"{outputPath}/{ABAssetLoaderSetting.RootBundleName}");
+            File.Move(rootBundleManifestName, $"{outputPath}/{ABAssetLoaderSetting.RootBundleName}.manifest");
 
             // contentNames に含まれないバンドルは削除する
             foreach (var fileName in Directory.GetFiles(outputPath))
             {
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-                if (fileNameWithoutExtension == AssetLoaderSetting.RootBundleName)
+                if (fileNameWithoutExtension == ABAssetLoaderSetting.RootBundleName)
                     continue;
 
                 if (contentNames.Contains(fileNameWithoutExtension))
                     continue;
 
-                if (fileNameWithoutExtension == Path.GetFileNameWithoutExtension(AssetLoaderSetting.ContentsTableName) ||
-                    fileNameWithoutExtension == Path.GetFileNameWithoutExtension(AssetLoaderSetting.VersionManifestFileName))
+                if (fileNameWithoutExtension == Path.GetFileNameWithoutExtension(ABAssetLoaderSetting.ContentsTableName) ||
+                    fileNameWithoutExtension == Path.GetFileNameWithoutExtension(ABAssetLoaderSetting.VersionManifestFileName))
                     continue;
 
                 File.Delete(fileName);

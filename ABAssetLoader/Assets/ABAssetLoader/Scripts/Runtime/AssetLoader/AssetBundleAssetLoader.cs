@@ -38,8 +38,8 @@ namespace ABAssetLoader.AssetLoader
             var bundle = await LoadBundle(bundleName, linkedTokenSource.Token);
 
             // mock load delay
-            if (AssetLoaderSetting.EmulateLoadingAssetDelayMilliseconds.HasValue)
-                await UniTask.Delay(millisecondsDelay: AssetLoaderSetting.EmulateLoadingAssetDelayMilliseconds.Value,
+            if (ABAssetLoaderSetting.EmulateLoadingAssetDelayMilliseconds.HasValue)
+                await UniTask.Delay(millisecondsDelay: ABAssetLoaderSetting.EmulateLoadingAssetDelayMilliseconds.Value,
                     cancellationToken: ct);
 
             var asset = await bundle.LoadAssetAsync<T>(assetPath).WithCancellation(linkedTokenSource.Token);
@@ -73,7 +73,7 @@ namespace ABAssetLoader.AssetLoader
             AssetBundle rootBundle;
             try
             {
-                rootBundle = await AssetBundle.LoadFromFileAsync($"{AssetLoaderSetting.StreamingAssetBundleBasePath}/{AssetLoaderSetting.RootBundleName}")
+                rootBundle = await AssetBundle.LoadFromFileAsync($"{ABAssetLoaderSetting.StreamingAssetBundleBasePath}/{ABAssetLoaderSetting.RootBundleName}")
                     .WithCancellation(ct);
             }
             catch (UnityWebRequestException ex)
@@ -83,7 +83,7 @@ namespace ABAssetLoader.AssetLoader
 
                 // Persistent に見つからない時は Streaming の RootBundle を参照する
                 rootBundle = await AssetBundle.LoadFromFileAsync(
-                        $"{AssetLoaderSetting.PersistentAssetBundleBasePath}/{AssetLoaderSetting.RootBundleName}")
+                        $"{ABAssetLoaderSetting.PersistentAssetBundleBasePath}/{ABAssetLoaderSetting.RootBundleName}")
                     .WithCancellation(ct);
             }
 

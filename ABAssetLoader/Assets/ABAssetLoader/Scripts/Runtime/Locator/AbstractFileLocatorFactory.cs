@@ -23,7 +23,7 @@ namespace ABAssetLoader.Locator
             protected abstract string BasePath { get; }
 
             protected AbstractFileLocator(string fileName) => FileName = fileName;
-            protected virtual string Path => $"{BasePath}/{AssetLoaderSetting.BundleBasePath}/{FileName}";
+            protected virtual string Path => $"{BasePath}/{ABAssetLoaderSetting.BundleBasePath}/{FileName}";
             protected string FileName { get; }
         }
 
@@ -49,7 +49,7 @@ namespace ABAssetLoader.Locator
 
         private class PersistentFileLocator : AbstractFileLocator
         {
-            protected override string BasePath => AssetLoaderSetting.PersistentDataPath;
+            protected override string BasePath => ABAssetLoaderSetting.PersistentDataPath;
             public override string PathForWebRequest => "file://" + Path.Replace("\\", "/");
 
             public PersistentFileLocator(string fileName) : base(fileName)
@@ -61,7 +61,7 @@ namespace ABAssetLoader.Locator
         {
             // TODO: アセットサーバのホスティング
             protected override string BasePath =>
-                $"{Application.streamingAssetsPath}/MockHostAssetBundles/{AssetLoaderSetting.PackageNameContext}";
+                $"{Application.streamingAssetsPath}/MockCdnHost/{ABAssetLoaderSetting.RemotePackageName}";
             protected override string Path => $"{BasePath}/{FileName}";
 
             public override string PathForWebRequest

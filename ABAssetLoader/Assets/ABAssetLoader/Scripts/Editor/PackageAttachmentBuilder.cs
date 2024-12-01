@@ -28,10 +28,10 @@ namespace ABAssetLoader.Editor
             }
 
             // root bundle と manifest は手動で追加する
-            rawTable.Add((AssetLoaderSetting.RootBundleName, AssetLoaderSetting.RootBundleName));
-            rawTable.Add(($"{AssetLoaderSetting.RootBundleName}.manifest", AssetLoaderSetting.RootBundleName));
+            rawTable.Add((ABAssetLoaderSetting.RootBundleName, ABAssetLoaderSetting.RootBundleName));
+            rawTable.Add(($"{ABAssetLoaderSetting.RootBundleName}.manifest", ABAssetLoaderSetting.RootBundleName));
 
-            var filePath = $"{buildOutputPath}/{AssetLoaderSetting.ContentsTableName}";
+            var filePath = $"{buildOutputPath}/{ABAssetLoaderSetting.ContentsTableName}";
             if (File.Exists(filePath))
                 File.Delete(filePath);
 
@@ -52,7 +52,7 @@ namespace ABAssetLoader.Editor
         public static void ExportVersionManifest(string buildOutputPath, HashSet<string> contentsNameTable,
             AssetBundleManifest rootManifest)
         {
-            var filePath = $"{buildOutputPath}/{AssetLoaderSetting.VersionManifestFileName}";
+            var filePath = $"{buildOutputPath}/{ABAssetLoaderSetting.VersionManifestFileName}";
             var versionManifest = AssetVersionManifestMaker.Create(buildOutputPath, contentsNameTable, rootManifest);
 
             if (File.Exists(filePath))
